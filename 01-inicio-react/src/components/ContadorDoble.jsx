@@ -21,6 +21,15 @@ const ContadorDoble = () => {
     }
   }
 
+  function calculateAverage() {
+    const totalLikes = Object.values(friends).reduce(
+      (acc, curr) => acc + curr,
+      0
+    );
+    const totalFriends = Object.keys(friends).length;
+    return (totalLikes / totalFriends).toFixed(1);
+  }
+
   return (
     <div className="max-w-sm mx-auto mt-8 p-6 bg-grey-200 shadow-sm rounded-md">
       <h1 className="text-2xl font-bold mb-5 text-center ">
@@ -62,6 +71,14 @@ const ContadorDoble = () => {
           >
             No me gusta
           </button>
+        </div>
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold mb-4">
+            Media de los contadores
+          </h2>
+          <p className="text-lg">
+            La media es: <span className="font-bold">{calculateAverage()}</span>
+          </p>
         </div>
       </div>
     </div>

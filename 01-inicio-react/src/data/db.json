@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "titulo": "Desarrollo de aplicación web",
+    "precio": 500,
+    "tags": ["JavaScript", "HTML", "CSS"],
+    "img": "https://example.com/img1.jpg"
+  },
+  {
+    "id": 2,
+    "titulo": "API REST con Node.js",
+    "precio": 400,
+    "tags": ["Node.js", "Express", "MongoDB"],
+    "img": "https://example.com/img2.jpg"
+  },
+  {
+    "id": 3,
+    "titulo": "Aplicación móvil nativa",
+    "precio": 800,
+    "tags": ["Swift", "Kotlin", "React Native"],
+    "img": "https://example.com/img3.jpg"
+  },
+  {
+    "id": 4,
+    "titulo": "Diseño UI/UX para aplicaciones",
+    "precio": 350,
+    "tags": ["Figma", "Adobe XD", "CSS"],
+    "img": "https://example.com/img4.jpg"
+  },
+  {
+    "id": 5,
+    "titulo": "Tienda online con Laravel",
+    "precio": 700,
+    "tags": ["PHP", "Laravel", "MySQL"],
+    "img": "https://example.com/img5.jpg"
+  },
+  {
+    "id": 6,
+    "titulo": "Desarrollo backend en Python",
+    "precio": 600,
+    "tags": ["Python", "Django", "PostgreSQL"],
+    "img": "https://example.com/img6.jpg"
+  },
+  {
+    "id": 7,
+    "titulo": "Landing Page optimizada",
+    "precio": 200,
+    "tags": ["HTML", "CSS", "JavaScript"],
+    "img": "https://example.com/img7.jpg"
+  },
+  {
+    "id": 8,
+    "titulo": "Sistema de gestión empresarial",
+    "precio": 1200,
+    "tags": ["Java", "Spring Boot", "Oracle"],
+    "img": "https://example.com/img8.jpg"
+  },
+  {
+    "id": 9,
+    "titulo": "Optimización de rendimiento web",
+    "precio": 300,
+    "tags": ["JavaScript", "Web Performance", "SEO"],
+    "img": "https://example.com/img9.jpg"
+  },
+  {
+    "id": 10,
+    "titulo": "Desarrollo de chatbot con IA",
+    "precio": 900,
+    "tags": ["Python", "TensorFlow", "NLP"],
+    "img": "https://example.com/img10.jpg"
+  }
+]

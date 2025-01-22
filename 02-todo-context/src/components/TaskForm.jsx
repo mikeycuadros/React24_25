@@ -4,11 +4,11 @@ import { TaskContext } from "../context/TaskContext";
 const TaskForm = () => {
   // me traigo el contexto.
   // me traigo las funciones que necesito del contexto
-  const { addTask } = useContext(TaskContext);
+  const { tasks, addTask } = useContext(TaskContext);
   const [taskName, setTaskName] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
     // voy a añadir una tarea
     if (taskName.trim()) {
       addTask({
@@ -28,7 +28,7 @@ const TaskForm = () => {
       <input
         type="text"
         value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
+        onChange={(event) => setTaskName(event.target.value)}
         placeholder="Título de la tarea"
         className="w-full p-2 m-4 border border-gray-300"
       />

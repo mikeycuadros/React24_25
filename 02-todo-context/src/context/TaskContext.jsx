@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 /**
  * Una tarea tipica ha de ser:
  * {
@@ -15,21 +15,27 @@ export const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   // No olvidar que las tareas deben estar guardadas en el localStorage
-  const [task, setTask] = useState(() => {
+  const [tasks, setTasks] = useState(() => {
     const savedTask = localStorage.getItem("task");
     return savedTask ? JSON.parse(savedTask) : [];
   });
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  // funciones
   // acciones sobre una tarea:
   // - agregar
   // - eliminar
   // - editar
   // - marcar como completada
   const addTask = (task) => {
-    setTask((prevTasks) => [...prevTasks, task]);
+    setTasks((prevTasks) => [...prevTasks, task]);
   };
 
   const removeTask = (taskId) => {
-    setTask((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
 
   const removeTask2 = (taskId) => {};
@@ -37,7 +43,7 @@ export const TaskProvider = ({ children }) => {
   const editTask = (taskId, task) => {};
 
   const toggleTaskCompleted = (taskId) => {
-    setTask((prevTasks) =>
+    setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task.id === taskId ? { ...task, completed: !task.completed } : task
       )
@@ -50,7 +56,7 @@ export const TaskProvider = ({ children }) => {
   return (
     <TaskContext.Provider
       value={{
-        task,
+        tasks,
         addTask,
         removeTask,
         editTask,

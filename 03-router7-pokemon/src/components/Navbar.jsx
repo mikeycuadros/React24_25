@@ -24,12 +24,6 @@ const Navbar = () => {
             Buscar
           </NavLink>
           <NavLink
-            to={ROUTES.POKEMON_DETAIL}
-            className="text-white text-2xl font-bold"
-          >
-            Detalles
-          </NavLink>
-          <NavLink
             to={ROUTES.FAVORITES}
             className="text-white text-2xl font-bold"
           >

@@ -6,8 +6,6 @@ import { PokemonProvider } from "./context/PokemonContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <PokemonProvider>
-      <App />
-    </PokemonProvider>
+    <App />
   </StrictMode>
 );

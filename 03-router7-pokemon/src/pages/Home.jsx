@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../routes/paths";
+import { usePokemon } from "../context/PokemonContext";
+import Spinner from "../components/Spinner";
 
 const Home = () => {
   const [pokemons, setPokemons] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const { addToFavorites } = usePokemon();
   useEffect(() => {
     fetchPokemons();
   }, []);
@@ -34,6 +37,14 @@ const Home = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Pokemons Disponibles</h1>
@@ -45,15 +56,18 @@ const Home = () => {
           >
             <div className="relative group">
               <img
-                className="mx-auto"
-                src={pokemon.sprites.front_default}
+                className="mx-auto h-16"
+                src={pokemon.sprites.other.showdown.front_default}
                 alt={pokemon.name}
               />
               <h2 className="text-xl font-bold text-center mt-4 capitalize">
                 {pokemon.name}
               </h2>
               <div className="flex justify-center space-x-2 mt-4">
-                <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-slate-900">
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-slate-900"
+                  onClick={() => addToFavorites(pokemon)}
+                >
                   Añadir a favoritos
                 </button>
                 <Link

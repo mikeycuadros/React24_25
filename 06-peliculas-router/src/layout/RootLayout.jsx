@@ -3,6 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 const RootLayout = () => {
   return (
     <div className="min-h-screen bg-gray-100">
+      {/* barra de navegación  */}
       <nav className="bg-sky-950 text-white shadow-lg mb-6">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16">

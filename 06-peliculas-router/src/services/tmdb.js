@@ -10,14 +10,15 @@ export const SIZE = {
 // Funcion para hacer fetch a la API URL, opciones
 const fetchFromApi = async (endpoint, options = {}) => {
   try {
+    //https://api.themoviedb.org/3/movie/popular?api_key=3539fc43f3071ba9255ce12f60a40d5f&language=es-ES
     const response = await fetch(
       `${BASE_URL}${endpoint}?api_key=${API_KEY}&language=es-ES&${new URLSearchParams(
         options
       )}`
     );
     if (!response.ok) throw new Error("Error en la peticion");
-    const { result } = await response.json();
-    return result;
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error(error);
     throw error;
@@ -34,12 +35,13 @@ export const getMovieDetails = async (id) => {
   return await fetchFromApi(`/movie/${id}`);
 };
 
+// Funcion para obtener la imagen de una pelicula
+
+export const getMovieImage = (path, size = SIZE.POSTER) => {
+  return `${BASE_IMAGE_URL}/${size}/${path}`;
+};
+
 // Funcion para obtener los videos de una pelicula
 export const getMovieVideos = async (id) => {
   return await fetchFromApi(`/movie/${id}/videos`);
-};
-
-// Funcion para obtener la imagen de una pelicula
-export const getMovieImage = async (path, size = SIZE.POSTER) => {
-  return `${BASE_IMAGE_URL}/${size}${path}`;
 };

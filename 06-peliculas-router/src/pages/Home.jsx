@@ -1,5 +1,5 @@
+import React, { useState } from "react";
 import { useFetch } from "../hooks/useFetch";
-import { useState } from "react";
 import { getPopularMovies } from "../services/tmdb";
 import { Link } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
@@ -25,9 +25,10 @@ const Home = () => {
     );
   }
 
+  // si no ... pues cargo las películas
   return (
     <div className="space-y-8">
-      <header className="text-center ">
+      <header className="text-center">
         <h1 className="text-4xl font-bold text-sky-950">
           Bienvenido al VideoClub
         </h1>
@@ -35,6 +36,7 @@ const Home = () => {
           Aqui podras encontrar las peliculas mas populares del momento
         </p>
       </header>
+      {/* seccion de las peliculas */}
       <section>
         <h2 className="text-2xl font-bold text-sky-900 ">
           Peliculas populares
@@ -44,11 +46,11 @@ const Home = () => {
         ) : (
           <>
             {/* Grid para las peliculas */}
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {data?.results?.map((movie) => {
+            <div className="grid grid-cols-2 gap-6  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {data?.results?.map((movie) => (
                 // Aqui pinto las tarjetas
-                <MovieCard key={movie.id} movie={movie} />;
-              })}
+                <MovieCard key={movie.id} movie={movie}/>
+              ))}
             </div>
           </>
         )}

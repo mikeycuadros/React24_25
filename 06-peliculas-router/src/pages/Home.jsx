@@ -38,7 +38,7 @@ const Home = () => {
       </header>
       {/* seccion de las peliculas */}
       <section>
-        <h2 className="text-2xl font-bold text-sky-900 ">
+        <h2 className="text-2xl font-bold text-sky-900 mb-2">
           Peliculas populares
         </h2>
         {loading ? (
@@ -49,8 +49,26 @@ const Home = () => {
             <div className="grid grid-cols-2 gap-6  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {data?.results?.map((movie) => (
                 // Aqui pinto las tarjetas
-                <MovieCard key={movie.id} movie={movie}/>
+                <MovieCard key={movie.id} movie={movie} />
               ))}
+            </div>
+
+            {/* botones para paginar */}
+            <div className="flex justify-center gap-4 mt-6 mb-4">
+              <button
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                disabled={page === 1}
+                className="px-4 py-2 bg-gray-300 rounded-md disabled:opacity-50"
+              >
+                Anterior
+              </button>
+              <span className="text-lg font-bold">Página {page}</span>
+              <button
+                onClick={() => setPage((prev) => prev + 1)}
+                className="px-4 py-2 bg-blue-500 text-white rounded-md"
+              >
+                Siguiente
+              </button>
             </div>
           </>
         )}

@@ -26,8 +26,8 @@ const fetchFromApi = async (endpoint, options = {}) => {
 };
 
 // Funcion para obtener las peliculas populares
-export const getPopularMovies = async () => {
-  return await fetchFromApi("/movie/popular");
+export const getPopularMovies = async (page) => {
+  return await fetchFromApi("/movie/popular", { page });
 };
 
 // Funcion para obtener los detalles de una pelicula

@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import { getMovieImage } from "../services/tmdb";
 
 const MovieCard = ({ movie }) => {
-  console.log("movie-->", movie);
-
   return (
     <Link to={`/movie/${movie.id}`} className="group">
       <article className="card transform transition-transform duration-200 group-hover:scale-105">

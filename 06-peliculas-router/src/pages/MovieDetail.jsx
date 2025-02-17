@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
 import {
@@ -16,12 +15,13 @@ const MovieDetail = () => {
   const [trailer, setTrailer] = useState(null);
 
   // Obtener el trailer después de cargar los detalles de la película
+  // https://api.themoviedb.org/3/movie/939243/videos?api_key=3539fc43f3071ba9255ce12f60a40d5f
   useEffect(() => {
     const fetchTrailer = async () => {
       if (id) {
         const videos = await getMovieVideos(id);
         const trailerVideo = videos.results.find(
-          (video) => video.type === "Trailer" && video.site === "YouTube"
+          (video) => video.type === "Teaser" && video.site === "YouTube"
         );
         if (trailerVideo) setTrailer(trailerVideo.key);
       }
@@ -100,7 +100,7 @@ const MovieDetail = () => {
             <p>{data?.overview}</p>
           </section>
           {/* Seccion del video */}
-          <section>
+          <section className="mb-4">
             <h2 className="font-bold text-2xl text-gray-900">
               Trailer oficial
             </h2>
@@ -111,7 +111,7 @@ const MovieDetail = () => {
               src={`https://www.youtube.com/embed/${trailer}`}
               allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-            ></iframe>
+            />
           </section>
         </div>
       </div>

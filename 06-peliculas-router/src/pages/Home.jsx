@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useFetch } from "../hooks/useFetch";
 import { getPopularMovies } from "../services/tmdb";
 import { Link } from "react-router-dom";

@@ -1,9 +1,5 @@
-import React from 'react'
-
 const MovieList = () => {
-  return (
-    <div>MovieList</div>
-  )
-}
+  return <div>MovieList</div>;
+};
 
-export default MovieList
+export default MovieList;

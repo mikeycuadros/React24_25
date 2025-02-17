@@ -8,10 +8,24 @@ const RootLayout = () => {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16">
             {/* Logo del videoclub */}
-            <div className="flex items-center">
-              <NavLink to="/" className="text-xl font-bold">
+            <div className="flex items-center space-x-4">
+              <NavLink to="/" className="text-lg font-bold">
                 Videoclub
               </NavLink>
+              <div className="flex space-x-4 ml-10">
+                <NavLink to="/movies" className="hover:text-amber-600">
+                  Películas
+                </NavLink>
+                <NavLink to="/search" className="hover:text-amber-600">
+                  Buscar
+                </NavLink>
+                <NavLink to="/reviews" className="hover:text-amber-600">
+                  Reseñas
+                </NavLink>
+                <NavLink to="/favorites" className="hover:text-amber-600">
+                  Favoritos
+                </NavLink>
+              </div>
             </div>
           </div>
         </div>

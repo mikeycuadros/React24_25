@@ -1,21 +1,27 @@
 import { useState } from "react";
 import { useFetch } from "../hooks/useFetch";
-import { getPopularMovies } from "../services/tmdb"; // Importa la función fetchFromApi
+import { getPopularMovies, searchMovies } from "../services/tmdb"; // Importa la función fetchFromApi
 import { Link } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 import LoadingSpinner from "../components/LoadingSpinner";
 import SearchBox from "../components/SearchBox"; // Importa el componente SearchBox
 
 const Search = () => {
-  const [query, setQuery] = useState(""); // Estado para almacenar la consulta de búsqueda
-  const [page, setPage] = useState(1); // Estado para la paginación
+  const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const { data, loading, error } = useFetch(
-    () => getPopularMovies(page),
-    [page]
+    () =>
+      searchQuery ? searchMovies(searchQuery, page) : getPopularMovies(page),
+    [searchQuery, page]
   );
 
+  const handleSearch = (term) => {
+    setSearchQuery(term);
+    setPage(1); // Reset to first page when searching
+  };
+
   const handlePageChange = (newPage) => {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Desplazamiento suave al cambiar de página
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setPage(newPage);
   };
 
@@ -37,15 +43,8 @@ const Search = () => {
     <div className="space-y-8 mx-6">
       <header className="text-center">
         <h1 className="text-4xl font-bold text-sky-950">Buscador</h1>
-        <p className="mt-4 text-gray-800">
-          Busca películas y series en nuestro videoclub
-        </p>
         {/* Integrar el SearchBox */}
-        <SearchBox
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onSearch={() => setPage(1)} // Reinicia la página al realizar una nueva búsqueda
-        />
+        <SearchBox onSearch={handleSearch} />
       </header>
       {/* Sección de resultados */}
       <section>

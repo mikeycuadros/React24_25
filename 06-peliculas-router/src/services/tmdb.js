@@ -36,7 +36,6 @@ export const getMovieDetails = async (id) => {
 };
 
 // Funcion para obtener la imagen de una pelicula
-
 export const getMovieImage = (path, size = SIZE.POSTER) => {
   return `${BASE_IMAGE_URL}/${size}/${path}`;
 };
@@ -44,4 +43,32 @@ export const getMovieImage = (path, size = SIZE.POSTER) => {
 // Funcion para obtener los videos de una pelicula
 export const getMovieVideos = async (id) => {
   return await fetchFromApi(`/movie/${id}/videos`);
+};
+
+// Funcion para buscar peliculas
+export const searchMovies = async (query, page) => {
+  return await fetchFromApi("/search/movie", {
+    query,
+    page,
+  });
+};
+
+// Funcion para filtrar las peliculas
+export const discoverMovies = async (
+  page,
+  sortBy = "popularity.desc",
+  genre = "",
+  year = ""
+) => {
+  return await fetchFromApi("/discover/movie", {
+    page,
+    sort_by: sortBy,
+    with_genres: genre,
+    primary_release_year: year,
+  });
+};
+
+// Funcion para obtener los generos de las peliculas
+export const getGenres = async () => {
+  return await fetchFromApi("/genre/movie/list");
 };

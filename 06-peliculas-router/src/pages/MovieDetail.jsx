@@ -8,11 +8,16 @@ import {
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useState } from "react";
 import { useEffect } from "react";
+import ReviewItem from "../components/ReviewItem";
+import ReviewForm from "../components/ReviewForm";
+import { useReviews } from "../contexts/ReviewsContext";
 
 const MovieDetail = () => {
   const { id } = useParams();
   const { data, loading, error } = useFetch(() => getMovieDetails(id), [id]);
   const [trailer, setTrailer] = useState(null);
+  const { getMovieReviews } = useReviews();
+  const movieReviews = getMovieReviews(id);
 
   // Obtener el trailer después de cargar los detalles de la película
   // https://api.themoviedb.org/3/movie/939243/videos?api_key=3539fc43f3071ba9255ce12f60a40d5f
@@ -115,6 +120,32 @@ const MovieDetail = () => {
               allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
+          </section>
+          <section>
+            <div className="mt-12 mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Reseñas</h2>
+
+              {/* Review Form */}
+              <div className="mb-8">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                  Añadir reseña
+                </h3>
+                <ReviewForm movieId={id} movieDetails={data} />
+              </div>
+
+              {/* Reviews List */}
+              <div className="space-y-4">
+                {movieReviews.length === 0 ? (
+                  <p className="text-gray-600">
+                    No hay reseñas todavía. ¡Sé el primero en opinar!
+                  </p>
+                ) : (
+                  movieReviews.map((review) => (
+                    <ReviewItem key={review.id} review={review} movieId={id} />
+                  ))
+                )}
+              </div>
+            </div>
           </section>
         </div>
       </div>

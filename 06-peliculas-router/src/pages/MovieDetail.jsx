@@ -88,8 +88,11 @@ const MovieDetail = () => {
           <section className="flex items-center gap-4 text-sm text-gray-700">
             <span>
               {data?.genres.map((genre) => (
-                <span key={genre.id} className="text-gray-600">
-                  {genre.name},
+                <span
+                  key={genre.id}
+                  className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-medium mr-3"
+                >
+                  {genre.name}
                 </span>
               ))}
             </span>

@@ -1,169 +1,96 @@
-// import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { toast } from "sonner";
-
-// const Search = () => {
-//   const [search, setSearch] = useState("");
-//   const [isLoading, setIsLoading] = useState(false);
-//   const navigate = useNavigate();
-
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-//     setIsLoading(true);
-//     try {
-//       const response = await fetch(
-//         `https://pokeapi.co/api/v2/pokemon/${search.toLowerCase()}`
-//       );
-//       if (!response.ok) {
-//         toast.error("Error al buscar el pokemon", {
-//           style: {
-//             background: "#fee2e2",
-//             color: "black",
-//             border: "2px solid red",
-//           },
-//           icon: "❌",
-//         });
-//         return;
-//       }
-//       console.log(await response.json());
-//       // pinto una tarjeta con los detalles del pokemon
-//       // o redirijo a una pagina de detalles
-//       navigate(`/search/${search.toLowerCase()}`);
-//     } catch (error) {
-//       toast.error("Error al buscar el pokemon", {
-//         style: {
-//           background: "·fee2e2",
-//           color: "white",
-//           border: "2px solid red",
-//         },
-//         icon: "❌",
-//       });
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   return (
-//     <div className="container mx-auto p-4">
-//       <form
-//         onSubmit={handleSubmit}
-//         className="max-w-md mx-auto bg-white p-6 rounded-xl shadow-lg"
-//       >
-//         <div className="flex gap-2">
-//           <input
-//             type="text"
-//             value={search}
-//             onChange={(event) => setSearch(event.target.value)}
-//             className="flex-1 p-2 border border-gray-200 rounded-lg focus:outline-rose-500"
-//             placeholder="Introduce el nombre del Pokémon"
-//           />
-//           <button
-//             type="submit"
-//             className="bg-rose-500 text-white px-4 py-2 rounded hover:bg-rose-300"
-//           >
-//             Buscar
-//           </button>
-//         </div>
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default Search;
-
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
+import { useFetch } from "../hooks/useFetch";
+import { fetchFromApi } from "../services/tmdb"; // Importa la función fetchFromApi
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
-import { ROUTES } from "../routes/paths";
+import MovieCard from "../components/MovieCard";
+import LoadingSpinner from "../components/LoadingSpinner";
+import SearchBox from "../components/SearchBox"; // Importa el componente SearchBox
 
 const Search = () => {
-  const [search, setSearch] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [results, setResults] = useState([]);
+  const [query, setQuery] = useState(""); // Estado para almacenar la consulta de búsqueda
+  const [page, setPage] = useState(1); // Estado para la paginación
+  const { data, loading, error } = useFetch(
+    () => fetchFromApi("/search/multi", { query, page }), // Realiza la búsqueda
+    [query, page] // Dependencias: query y page
+  );
 
-  useEffect(() => {
-    if (search.length < 2) {
-      setResults([]);
-      return;
-    }
+  const handlePageChange = (newPage) => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Desplazamiento suave al cambiar de página
+    setPage(newPage);
+  };
 
-    const fetchPokemonList = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          "https://pokeapi.co/api/v2/pokemon?limit=1000"
-        );
-        if (!response.ok)
-          throw new Error("No se pudo obtener la lista de Pokémon");
+  // Función para manejar la búsqueda
+  const handleSearch = () => {
+    setPage(1); // Reinicia la página al realizar una nueva búsqueda
+  };
 
-        const data = await response.json();
-        const filtered = await Promise.all(
-          data.results
-            .filter((pokemon) => pokemon.name.includes(search.toLowerCase()))
-            .map(async (pokemon) => {
-              const detailsResponse = await fetch(pokemon.url);
-              const details = await detailsResponse.json();
-              return {
-                name: pokemon.name,
-                image: details.sprites.front_default,
-              };
-            })
-        );
-        setResults(filtered);
-      } catch (error) {
-        toast.error("Error al buscar Pokémon", {
-          style: {
-            background: "#fee2e2",
-            color: "black",
-            border: "2px solid red",
-          },
-          icon: "❌",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPokemonList();
-  }, [search]);
+  // Manejo de errores
+  if (error) {
+    return (
+      <div className="text-center py-10">
+        <p className="text-2xl font-bold text-red-500">
+          Error al cargar los resultados: {error}
+        </p>
+        <Link to="/" className="text-blue-500 px-4 py-6">
+          Volver al menú principal
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto p-4">
-      <form className="max-w-md mx-auto bg-white p-6 rounded-xl shadow-lg">
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            className="flex-1 p-2 border border-gray-200 rounded-lg focus:outline-rose-500"
-            placeholder="Introduce el nombre del Pokémon"
-          />
-        </div>
-      </form>
-
-      {isLoading && <p className="text-center mt-4">Cargando...</p>}
-
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-        {results.map((pokemon) => (
-          <div
-            key={pokemon.name}
-            className="bg-gray-100 p-4 rounded-lg shadow-md text-center"
-          >
-            <img
-              src={pokemon.image}
-              alt={pokemon.name}
-              className="mx-auto w-24 h-24"
-            />
-            <p className="capitalize font-semibold mt-2">{pokemon.name}</p>
-            <Link
-              className="bg-green-700 text-white px-4 py-2 rounded hover:bg-slate-900"
-              to={`${ROUTES.SEARCH}/${pokemon.name}`}
-            >
-              Ver detalles
-            </Link>
-          </div>
-        ))}
-      </div>
+    <div className="space-y-8 mx-6">
+      <header className="text-center">
+        <h1 className="text-4xl font-bold text-sky-950">Buscador</h1>
+      </header>
+      {/* Sección de resultados */}
+      <section>
+        <h2 className="text-2xl font-bold text-sky-900 mb-4">
+          Resultados de búsqueda
+        </h2>
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            {/* Grid para los resultados */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              {data?.results?.map((movie) => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
+            </div>
+            {/* Paginación */}
+            {data?.total_pages > 1 && (
+              <div className="flex justify-center gap-4 mt-8 mb-3">
+                <button
+                  className={`px-4 py-2 bg-sky-900 text-white rounded ${
+                    page === 1
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-blue-600"
+                  }`}
+                  onClick={() => handlePageChange(page - 1)}
+                  disabled={page === 1}
+                >
+                  Anterior
+                </button>
+                <span className="text-gray-800 flex items-center">
+                  Página {data?.page} de {data?.total_pages}
+                </span>
+                <button
+                  className={`px-4 py-2 bg-sky-900 text-white rounded ${
+                    page === data?.total_pages
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-blue-600"
+                  }`}
+                  onClick={() => handlePageChange(page + 1)}
+                  disabled={page === data?.total_pages}
+                >
+                  Siguiente
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </section>
     </div>
   );
 };

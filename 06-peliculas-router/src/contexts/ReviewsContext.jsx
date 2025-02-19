@@ -31,10 +31,19 @@ export const ReviewsProvider = ({ children }) => {
   };
 
   const removeReview = (movieId, reviewId) => {
-    setReviews((prev) => ({
-      ...prev,
-      [movieId]: prev[movieId].filter((review) => review.id !== reviewId),
-    }));
+    setReviews((prev) => {
+      const updatedReviews = {
+        ...prev,
+        [movieId]: prev[movieId].filter((review) => review.id !== reviewId),
+      };
+
+      // Si no hay más reseñas para esta película, elimina la entrada completa
+      if (updatedReviews[movieId].length === 0) {
+        delete updatedReviews[movieId];
+      }
+
+      return updatedReviews;
+    });
 
     addToast("Reseña eliminada correctamente", "info");
   };

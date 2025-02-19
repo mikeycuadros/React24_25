@@ -4,12 +4,11 @@ import { useToast } from "./ToastContext";
 const FavoritesContext = createContext();
 
 export const FavoritesProvider = ({ children }) => {
+  const { addToast } = useToast();
   const [favorites, setFavorites] = useState(() => {
     const savedFavorites = localStorage.getItem("favorites");
     return savedFavorites ? JSON.parse(savedFavorites) : [];
   });
-
-  const { addToast } = useToast();
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -22,7 +21,7 @@ export const FavoritesProvider = ({ children }) => {
 
   const removeFavorite = (movieId, title) => {
     setFavorites((prev) => {
-      const newFavorites = prev.filter((m) => m.id !== movieId);
+      const newFavorites = prev.filter((movie) => movie.id !== movieId);
       addToast(`${title} eliminada de favoritos`, "info");
       return newFavorites;
     });

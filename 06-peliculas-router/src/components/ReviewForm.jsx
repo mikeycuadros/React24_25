@@ -16,6 +16,8 @@ const ReviewForm = ({ movieId, movieDetails }) => {
     }
     addReview(movieId, {
       ...formData,
+      movieTitle: movieDetails.title,
+      moviePoster: movieDetails.poster_path,
     });
     setFormData({ rating: 5, comment: "", author: "" });
   };

@@ -4,7 +4,12 @@ const RootLayout = () => {
   return (
     <>
       <div>RootLayout</div>
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
+      <footer>
+        <p>Footer Content</p>
+      </footer>
     </>
   );
 };

@@ -12,7 +12,6 @@ const ProductList = () => {
   return (
     <div>
       <h1>Product List</h1>
-      <p>Here you can find all our products.</p>
       {loading ? (
         <p>Cargando los datos</p>
       ) : (

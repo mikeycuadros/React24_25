@@ -3,15 +3,15 @@ const API_URL = import.meta.env.VITE_API_URL;
 // crear el contexto
 const ProductContext = createContext();
 // crear el provider
-export const useProducts=()=>{
-  const context=useContext(ProductContext);
-  
+export const useProducts = () => {
+  const context = useContext(ProductContext);
+
   if (!context) {
     throw new Error("useProducts must be used within a ProductProvider");
   }
 
   return context;
-}
+};
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +34,10 @@ export const ProductProvider = ({ children }) => {
   };
 
   return (
-    <ProductContext.Provider value={{products,loading,error,setLoading, setError}}>{children}</ProductContext.Provider>
+    <ProductContext.Provider
+      value={{ products, loading, error, setLoading, setError, setProducts }}
+    >
+      {children}
+    </ProductContext.Provider>
   );
 };
-

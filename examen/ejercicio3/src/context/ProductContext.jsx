@@ -33,9 +33,73 @@ export const ProductProvider = ({ children }) => {
     }
   };
 
+  const addProduct = async ({ name, description, price, stock }) => {
+    try {
+      const response = await fetch(`${API_URL}/api/products`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ name, description, price, stock }),
+      });
+      const data = await response.json();
+      setProducts([...products, data]);
+    } catch (error) {
+      console.log("Error adding product", error);
+      setError(error);
+    }
+  };
+
+  const updateProduct = async (id, updatedProduct) => {
+    try {
+      const response = await fetch(`${API_URL}/api/products/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(updatedProduct),
+      });
+      const data = await response.json();
+      const updatedProducts = products.map((product) =>
+        product._id === id ? data : product
+      );
+      setProducts(updatedProducts);
+    } catch (error) {
+      console.log("Error updating product", error);
+      setError(error);
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      await fetch(`${API_URL}/api/products/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const updatedProducts = products.filter((product) => product._id !== id);
+      setProducts(updatedProducts);
+    } catch (error) {
+      console.log("Error deleting product", error);
+      setError(error);
+    }
+  };
+
   return (
     <ProductContext.Provider
-      value={{ products, loading, error, setLoading, setError, setProducts }}
+      value={{
+        products,
+        loading,
+        error,
+        setLoading,
+        setError,
+        addProduct,
+        updateProduct,
+        deleteProduct,
+      }}
     >
       {children}
     </ProductContext.Provider>

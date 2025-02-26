@@ -61,7 +61,7 @@ const ProductForm = () => {
             Nombre
           </label>
           <input
-            type="name"
+            type="text"
             id="name"
             name="name"
             value={formData.name}
@@ -78,7 +78,7 @@ const ProductForm = () => {
             Descripcion
           </label>
           <input
-            type="description"
+            type="text"
             id="description"
             name="description"
             value={formData.description}
@@ -95,7 +95,7 @@ const ProductForm = () => {
             Precio
           </label>
           <input
-            type="price"
+            type="number"
             id="price"
             name="price"
             value={formData.price}
@@ -112,7 +112,7 @@ const ProductForm = () => {
             Stock
           </label>
           <input
-            type="stock"
+            type="number"
             id="stock"
             name="stock"
             value={formData.stock}

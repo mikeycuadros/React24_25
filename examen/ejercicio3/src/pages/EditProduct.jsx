@@ -17,6 +17,7 @@ const EditProduct = () => {
     const product = products.find((product) => product._id === id);
     if (product) {
       setFormData({
+        name: product.name,
         description: product.description,
         price: product.price,
         stock: product.stock,

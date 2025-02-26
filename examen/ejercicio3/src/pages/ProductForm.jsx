@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import  { useState, useEffect } from "react";
 import { useProducts } from "../context/ProductContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ProductForm = () => {
+  const { id } = useParams();
+  const { addProduct, updateProduct, products } = useProducts();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
     stock: "",
   });
-  const { addProduct } = useProducts();
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) {
+      const product = products.find((p) => p._id === id);
+      if (product) {
+        setFormData({
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          stock: product.stock,
+        });
+      }
+    }
+  }, [id, products]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value.trim() });
@@ -19,17 +34,23 @@ const ProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      addProduct(formData);
+      if (id) {
+        await updateProduct(id, formData);
+      } else {
+        await addProduct(formData);
+      }
       navigate("/products");
     } catch (error) {
-      console.log("Error adding product", error);
+      console.log(`Error ${id ? "updating" : "adding"} product`, error);
     }
   };
+
+  const isEditing = Boolean(id);
 
   return (
     <div className="max-w-md mx-auto my-10 p-5 bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold text-center text-gray-800">
-        AÑADIR PRODUCTO
+        {isEditing ? "EDITAR PRODUCTO" : "AÑADIR PRODUCTO"}
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -104,7 +125,7 @@ const ProductForm = () => {
           type="submit"
           className="w-full px-4 py-2 text-lg font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-700 transition duration-200"
         >
-          Añadir producto
+          {isEditing ? "Actualizar producto" : "Añadir producto"}
         </button>
       </form>
     </div>

@@ -10,7 +10,7 @@ const ProductList = () => {
   }
 
   const handleEdit = (id) => {
-    navigate(`/editProduct/${id}`);
+    navigate(`/products/edit/${id}`);
   };
 
   const handleDelete = async (id) => {
@@ -26,7 +26,7 @@ const ProductList = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Lista de Productos</h1>
         <button
-          onClick={() => navigate('/addProduct')}
+          onClick={() => navigate("/products/new")}
           className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
         >
           Añadir Nuevo Producto

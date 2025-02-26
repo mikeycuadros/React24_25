@@ -6,7 +6,6 @@ import DashboardPage from "../pages/DashboardPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import DashboardPageV2 from "../pages/DashboardPageV2";
 import ProductForm from "../pages/ProductForm";
-import EditProduct from "../pages/EditProduct";
 
 export const router = createBrowserRouter([
   {
@@ -38,21 +37,21 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "addProduct",
+        path: "products/new",
         element: (
           <ProtectedRoute>
             <ProductForm />
           </ProtectedRoute>
-        )
+        ),
       },
       {
-        path: "editProduct/:id",
+        path: "products/edit/:id",
         element: (
           <ProtectedRoute>
-            <EditProduct />
+            <ProductForm />
           </ProtectedRoute>
-        )
-      }
+        ),
+      },
     ],
   },
 ]);

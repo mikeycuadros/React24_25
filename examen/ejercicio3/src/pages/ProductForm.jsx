@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useProducts } from "../context/ProductContext";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -109,7 +109,7 @@ const ProductForm = () => {
             htmlFor="stock"
             className="block text-xl font-semibold text-gray-900"
           >
-            Precio
+            Stock
           </label>
           <input
             type="stock"
